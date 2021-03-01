@@ -64,3 +64,4 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
 gem 'hirb' #Para ver los datos mas ordenados en rails console
+gem 'kaminari'
