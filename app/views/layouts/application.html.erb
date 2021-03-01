@@ -10,8 +10,16 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <p class="notice"><%= notice %></p><br>
+    <p class="alert"><%= alert %></p><br>
+
+    <% if current_user%>
+      <%= link_to "Log out", destroy_user_session_path, method: :delete%>
+      <%= link_to "Ir a pagina de inicio", twats_path%>
+    <% else%>
+      <%= link_to "Sign up", new_user_registration_path%>
+      <%= link_to "Log in", new_user_session_path%>
+    <% end%>
     <%= yield %>
   </body>
 </html>
