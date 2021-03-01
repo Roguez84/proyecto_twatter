@@ -10,5 +10,21 @@
   <%= @twat.user %>
 </p>
 
+<% if user_signed_in? %>
+  <% if @twat.liked?(current_user) %>
+    <%= button_to "Like", like_path(@twat), method: "put", disabled: true %>
+    Liked by:
+    <% Like.all.each do |like| %>
+        <% if like.twat_id == @twat.id %>
+          <%= like.user_id %>
+        <% end %>
+    <% end %>
+  <% else %>
+    <%= button_to "Like", like_path(@twat), method: "put" %>
+  <% end %>
+<% end %>
+
+
+<br>
 <%= link_to 'Edit', edit_twat_path(@twat) %> |
 <%= link_to 'Back', twats_path %>

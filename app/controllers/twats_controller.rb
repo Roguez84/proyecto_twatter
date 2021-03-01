@@ -58,6 +58,15 @@ class TwatsController < ApplicationController
     end
   end
 
+def like
+  #grabbing the twat
+  @twat = Twat.all.find(params[:id])
+  #creating a Like with that post and the current user's id
+  Like.create(user_id: current_user.id, twat_id: @twat.id)
+  #redirecting them back to that POST
+  redirect_to twat_path(@twat)
+end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_twat
