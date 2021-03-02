@@ -10,6 +10,11 @@
   <%= @twat.user %>
 </p>
 
+<p>
+  <strong>Date created:</strong>
+  <%= @twat.created_at %>
+</p>
+
 <% if user_signed_in? %>
   <% if @twat.liked?(current_user) %>
     <%= button_to "Like", like_path(@twat), method: "put", disabled: true %>
