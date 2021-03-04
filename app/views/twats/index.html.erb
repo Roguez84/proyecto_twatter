@@ -2,6 +2,18 @@
 
 <h1>Twats</h1>
 
+<p>Eres el usuario <%= current_user %> con id <%= current_user.id %></p>
+
+<nav class="navbar navbar-light bg-light">
+  <form class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='name'>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+</nav>
+
+
+
+
 <%= link_to 'New Twat', new_twat_path %>
 
 <table>
@@ -17,9 +29,28 @@
   </thead>
 
   <tbody>
-    <% @twats.each do |twat| %>
+    <% @twats_from_friends.each do |twat| %>
       <tr>
-        <td><%= twat.name %></td>
+        <td>
+                  <% palabras = twat.name.split(" ")
+                  hashtag_links = []
+                  palabras.each do |palabra|
+                    if palabra.start_with?("#")%>
+                      <%hashtag_links.append('<a href="#">'+palabra+'</a>')%>
+                      <a href="twats?name=<%=palabra.slice(1..-1)%>">
+                        <%=palabra%>
+                      </a>
+                    <% else %>
+                      <%hashtag_links.append(palabra)%>
+                      <%=palabra%>
+                    <% end
+                  end %>
+                  <%texto_twat = hashtag_links.join(" ")%>
+                  <%texto_twat%>
+
+         </td>
+
+
         <td><%= twat.user %></td>
         <td><%= twat.user.photo %></td>
         <td><%= @likes.where(twat_id:twat.id).count %></td>
@@ -33,7 +64,7 @@
 </table>
   <div class="row">
     <div class="col">
-      <%= paginate @twats %>
+      <%= paginate @twats_from_friends %>
     </div>
   </div>
 <br>

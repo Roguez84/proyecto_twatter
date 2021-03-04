@@ -2,11 +2,20 @@ class TwatsController < ApplicationController
   before_action :set_twat, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
 
+
   # GET /twats or /twats.json
   def index
     #@twats = Twat.all
-    @twats = Twat.page(params[:page])
+    #@twats = Twat.page(params[:page]) Esto era antes de restringir a que se vieran los twats de los friends
+    #@twats_from_friends = Twat.tweets_for_me(current_user.id).page(params[:page])
     @likes = Like.all
+    if params[:name].present?
+      @twats_from_friends = Twat.tweets_for_me(current_user.id).where('name like ?', "%#{params[:name]}%").page(params[:page])
+    else
+      @twats_from_friends = Twat.tweets_for_me(current_user.id).page(params[:page])
+    end
+
+
   end
 
   # GET /twats/1 or /twats/1.json
@@ -26,6 +35,13 @@ class TwatsController < ApplicationController
   def create
     #@twat = Twat.new(twat_params)
     @twat = Twat.new(twat_params.merge(user: current_user))
+
+    ##Hecho en clase: para cambiar el mensaje de bienvenida
+    # if @post.saved
+    # => redirect_to root_path, notice: 'Post creado'
+    #else
+    # => redirect_to root_path, alert: 'No pude crear el post'
+    #end
 
     respond_to do |format|
       if @twat.save
@@ -80,5 +96,19 @@ class TwatsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def twat_params
       params.require(:twat).permit(:name)
+      #Es similar a :
+      # return {
+      # => name: params[:post][:name]
+      # => }
     end
 end
+
+#params dentro de params, viene lo siguiente
+# {
+#   auth_token: 'acsafasefa'
+#   utf: 'si',
+#   post: {
+#     nombre_variable1: 'nose'
+#     nombre_variable2: 'nose'
+#   }
+# }
