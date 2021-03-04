@@ -66,3 +66,4 @@ gem 'devise'
 gem 'hirb' #Para ver los datos mas ordenados en rails console
 gem 'kaminari'
 gem 'activeadmin'#, '~> 0.6.6'
+#gem 'rabl-rails'

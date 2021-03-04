@@ -11,4 +11,9 @@ Rails.application.routes.draw do
 
   root 'home#index'
   put '/twats/:id/like', to: 'twats#like', as: 'like'
+
+  namespace :api do
+    resources :news , only: [:index, :create] #, :show, :create, :update, :destroy]
+  end
+
 end
